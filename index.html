@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyFlow</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-view="dash">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-plan" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4v2h6V4M9 12h6M9 16h4"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 1.5h-15zM10 21h4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 1.500-4.500 3-6 0 2 1 3 2 3 .5-3-1-5 1-9z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol>
+    <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4zM16 9a4 4 0 0 1 0 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#4f7cf0"/><path d="M9 13l7 4 7-4M9 18l7 4 7-4" stroke="#fff" stroke-width="2.2" fill="none"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="logo"><svg class="logo-ic"><use href="#i-logo"/></svg>StudyFlow</div>
+    <nav class="nav">
+      <a href="#dash" data-view="dash"><svg class="ic"><use href="#i-home"/></svg><span>대시보드</span></a>
+      <a href="#plan" data-view="plan"><svg class="ic"><use href="#i-plan"/></svg><span>플래너</span></a>
+      <a href="#cal" data-view="cal"><svg class="ic"><use href="#i-cal"/></svg><span>캘린더</span></a>
+      <a href="#stats" data-view="stats"><svg class="ic"><use href="#i-chart"/></svg><span>통계</span></a>
+      <a href="#set" data-view="set"><svg class="ic"><use href="#i-gear"/></svg><span>설정</span></a>
+    </nav>
+    <div class="side-bottom">
+      <div class="side-card">
+        <div class="side-msg" id="side-msg"></div>
+        <div class="side-bar"><i id="side-bar"></i></div>
+        <div class="side-quote" id="side-quote"></div>
+      </div>
+      <button class="memo-btn" id="memo-btn"><svg class="ic"><use href="#i-plus"/></svg>빠른 메모</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <label class="search"><svg class="ic"><use href="#i-search"/></svg><input id="search" placeholder="계획, 할 일을 검색해보세요..."></label>
+      <button class="icon-btn" id="bell" aria-label="알림"><svg class="ic"><use href="#i-bell"/></svg><i class="badge" id="bell-badge"></i></button>
+      <button class="profile-btn" id="profile-btn"><span class="p-avatar" id="p-avatar">📖</span><span id="p-name">학습자</span><svg class="ic sm"><use href="#i-down"/></svg></button>
+    </header>
+
+    <div class="page">
+      <section class="hero" data-views="dash">
+        <div>
+          <h1 id="hero-title">안녕하세요, 오늘도 목표를 향해 공부해봐요 🌱</h1>
+          <p id="hero-sub">작은 꾸준함이, 큰 변화를 만들어요. 지금도 충분히 잘하고 있어요!</p>
+        </div>
+        <div class="hero-art"><span>오늘도<br>조금 더 성장하는 하루가<br>되길 바라요.</span></div>
+      </section>
+
+      <a class="card stat blue s3" data-views="dash" href="#plan">
+        <div class="stat-ic"><svg class="ic"><use href="#i-target"/></svg></div>
+        <div class="stat-body">
+          <div class="stat-t">오늘의 목표</div>
+          <div class="stat-v" id="c-goal-v">0 / 0</div>
+          <div class="stat-bar"><i id="c-goal-bar"></i><em id="c-goal-p">0%</em></div>
+        </div>
+      </a>
+      <a class="card stat green s3" data-views="dash" href="#stats">
+        <div class="stat-ic"><svg class="ic"><use href="#i-clock"/></svg></div>
+        <div class="stat-body">
+          <div class="stat-t">집중 시간</div>
+          <div class="stat-v" id="c-time-v">0분</div>
+          <div class="stat-sub" id="c-time-sub"></div>
+          <div class="stat-bar"><i id="c-time-bar"></i><em id="c-time-p">0%</em></div>
+        </div>
+      </a>
+      <a class="card stat orange s3" data-views="dash" href="#plan">
+        <div class="stat-ic"><svg class="ic"><use href="#i-check"/></svg></div>
+        <div class="stat-body">
+          <div class="stat-t">이번 주 완료한 할 일</div>
+          <div class="stat-v" id="c-done-v">0 / 0</div>
+          <div class="stat-bar"><i id="c-done-bar"></i><em id="c-done-p">0%</em></div>
+        </div>
+      </a>
+      <a class="card stat purple s3" data-views="dash" href="#plan">
+        <div class="stat-ic"><svg class="ic"><use href="#i-cal"/></svg></div>
+        <div class="stat-body">
+          <div class="stat-t">다가오는 시험</div>
+          <div class="stat-v sm" id="c-exam-name">없음</div>
+          <div class="stat-sub" id="c-exam-date">시험을 등록해보세요</div>
+        </div>
+        <svg class="ic sm chev"><use href="#i-right"/></svg>
+      </a>
+
+      <section class="card panel s6 cal-panel" data-views="dash cal">
+        <div class="head">
+          <h2>이번 주 학습 캘린더</h2>
+          <div class="cal-nav">
+            <button class="icon-btn sm-btn" id="cal-prev" aria-label="이전 주"><svg class="ic sm"><use href="#i-left"/></svg></button>
+            <span id="cal-title"></span>
+            <button class="icon-btn sm-btn" id="cal-next" aria-label="다음 주"><svg class="ic sm"><use href="#i-right"/></svg></button>
+            <button class="pill-btn" id="cal-today">오늘</button>
+          </div>
+        </div>
+        <div class="cal">
+          <div class="cal-head" id="cal-head"></div>
+          <div class="cal-body" id="cal-body"></div>
+        </div>
+      </section>
+
+      <section class="card panel s3" data-views="dash">
+        <div class="head"><h2>오늘의 할 일</h2><span class="muted" id="today-count">0 / 0 완료</span></div>
+        <ul class="todo" id="today-list"></ul>
+        <a class="add-link" href="#plan"><svg class="ic sm"><use href="#i-plus"/></svg>할 일 추가</a>
+      </section>
+
+      <section class="card panel s3 timer-panel" data-views="dash">
+        <div class="head"><h2>집중 타이머</h2><a class="muted link-s" href="#set">설정 ›</a></div>
+        <div class="seg" id="t-modes">
+          <button data-tm="pomo" class="on">포모도로</button>
+          <button data-tm="normal">일반</button>
+          <button data-tm="stop">스톱워치</button>
+        </div>
+        <div class="ring">
+          <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"/></svg>
+          <div class="ring-text"><div id="timer">25:00</div><small id="t-label">집중하기</small></div>
+        </div>
+        <select id="t-link"></select>
+        <button class="start-btn" id="t-start"><svg class="ic fill"><use href="#i-play"/></svg><span>시작하기</span></button>
+        <div class="t-foot">
+          <button id="t-noise"><svg class="ic sm"><use href="#i-vol"/></svg>백색소음</button>
+          <button id="t-reset"><svg class="ic sm"><use href="#i-refresh"/></svg>리셋</button>
+        </div>
+      </section>
+
+      <section class="card panel s4 half" data-views="dash stats">
+        <div class="head"><h2>과목별 학습 진도</h2><span class="muted">전체 진도율 <b class="big" id="subj-total">0%</b></span></div>
+        <div class="subj">
+          <div class="donut2" id="donut2"><span id="donut2-t">0%</span><small>전체 진도율</small></div>
+          <ul class="subj-list" id="subj-list"></ul>
+        </div>
+      </section>
+
+      <section class="card panel s4 half" data-views="dash stats">
+        <div class="head"><h2>연속 학습 <b id="streak-n">0</b>일 <svg class="ic fill flame-t"><use href="#i-flame"/></svg></h2><span class="muted">최고 기록 <span id="streak-best">0</span>일</span></div>
+        <div class="flames" id="streak-days"></div>
+        <div class="quote-box" id="streak-quote"></div>
+      </section>
+
+      <section class="card panel s4 quote-card" data-views="dash">
+        <div class="head"><h2>오늘의 한마디</h2><button class="muted-btn" id="q-next"><svg class="ic sm"><use href="#i-refresh"/></svg>다른 문구 보기</button></div>
+        <div class="scene"><p id="q-text"></p><small>- StudyFlow -</small></div>
+      </section>
+
+      <section class="card panel half" data-views="plan">
+        <div class="head"><h2>할 일 추가</h2></div>
+        <form id="form">
+          <input id="title" placeholder="무엇을 공부할까요?" required>
+          <div class="row">
+            <input id="subject" placeholder="과목" list="subjects">
+            <datalist id="subjects"></datalist>
+            <input id="date" type="date" required>
+          </div>
+          <div class="row">
+            <label class="fl">시작 시간(선택)<input id="start" type="time"></label>
+            <label class="fl">소요 시간(분)<input id="minutes" type="number" min="5" step="5" value="60"></label>
+          </div>
+          <button class="btn primary wide">추가하기</button>
+        </form>
+      </section>
+
+      <section class="card panel half" data-views="plan">
+        <div class="head"><h2>시험 D-day</h2></div>
+        <ul class="plain" id="exam-list"></ul>
+        <form id="exam-form" class="row">
+          <input id="exam-name" placeholder="시험 이름" required>
+          <input id="exam-date" type="date" required>
+          <button class="btn primary">등록</button>
+        </form>
+      </section>
+
+      <section class="card panel" data-views="plan">
+        <div class="head"><h2>전체 할 일</h2></div>
+        <div class="chips">
+          <button data-f="all" class="on">전체</button>
+          <button data-f="today">오늘</button>
+          <button data-f="todo">미완료</button>
+          <button data-f="done">완료</button>
+        </div>
+        <ul class="plain" id="list"></ul>
+      </section>
+
+      <section class="card panel" data-views="stats">
+        <div class="head"><h2>주간 학습 시간</h2><span class="muted">최근 7일 <b class="big" id="w-total">0</b>분</span></div>
+        <div class="stats-grid">
+          <div class="bars" id="week-bars"></div>
+          <div class="donut-wrap">
+            <div class="donut" id="donut"></div>
+            <ul class="legend" id="legend"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card panel" data-views="set">
+        <div class="head"><h2>설정</h2></div>
+        <div class="set">
+          <label>이름<input id="set-name" maxlength="12" placeholder="이름을 입력하세요"></label>
+          <label>하루 목표(분)<input id="set-goal" type="number" min="10" step="10"></label>
+          <label>집중 시간(분)<input id="set-focus" type="number" min="1" max="180"></label>
+          <label>휴식 시간(분)<input id="set-brk" type="number" min="1" max="60"></label>
+          <label>테마
+            <select id="set-theme"><option value="light">라이트</option><option value="dark">다크</option></select>
+          </label>
+          <label>포인트 색상<input id="set-accent" type="color"></label>
+        </div>
+        <div class="set-block"><span class="label">아바타</span><div class="avatars" id="avatar-pick"></div></div>
+        <div class="set-block"><span class="label">과목 색상</span><div class="colors" id="color-list"></div></div>
+        <div class="set-block">
+          <span class="label">데이터</span>
+          <div class="btn-row">
+            <button class="btn" id="export">내보내기</button>
+            <button class="btn" id="import">가져오기</button>
+            <input type="file" id="import-file" accept="application/json" hidden>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<dialog id="memo-dialog">
+  <h2>빠른 메모</h2>
+  <textarea id="memo-text" rows="8" placeholder="떠오른 생각을 바로 적어두세요. 자동으로 저장돼요."></textarea>
+  <button class="btn primary" id="memo-close">닫기</button>
+</dialog>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
